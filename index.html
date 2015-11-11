@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="GraphAlgVisualizer">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>blah</title>
+
+    <link rel="stylesheet" href="libraries/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="libraries/codemirror.min.css">
+    <link rel="stylesheet" href="codeMirrorTheme.css">
+
+    <script src="libraries/codemirror.min.js"></script>
+    <script src="libraries/codemirror.javascript.min.js"></script>
+    <script src="libraries/codemirror.diff.min.js"></script>
+
+    <script src="libraries/angular.min.js"></script>
+    <script data-main="main" src="libraries/require.min.js"></script>
+
+</head>
+<body ng-controller="EditorController as editCtrl" style="background-color: #333333">
+
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-danger"  ng-click="easelCtrl.resetStage                ()">tmp</button>
+        <button type="button" class="btn btn-info"    ng-click="easelCtrl.enterMode_placeVertices   ()">tmp</button>
+        <button type="button" class="btn btn-info"    ng-click="easelCtrl.enterMode_drawEdges       ()">tmp</button>
+        <button type="button" class="btn btn-info"    ng-click="easelCtrl.enterMode_markInitiators  ()">tmp</button>
+        <button type="button" class="btn btn-primary" ng-click="easelCtrl.enterMode_removeVertices  ()">tmp</button>
+        <button type="button" class="btn btn-primary" ng-click="easelCtrl.enterMode_removeEdges     ()">tmp</button>
+        <button type="button" class="btn btn-primary" ng-click="easelCtrl.enterMode_unmarkInitiators()">tmp</button>
+    </div>
+
+    <div id="codeMirrorElement"><!-- this will be replaced by CodeMirror when the controller constructs --> </div>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-danger" ng-click="easelCtrl.alg_reset()">tmp</button>
+        <button type="button" class="btn btn-info"   ng-click="easelCtrl.alg_run  ()">tmp</button>
+    </div>
+
+</body>
+</html>
