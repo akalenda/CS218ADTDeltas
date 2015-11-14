@@ -13,7 +13,7 @@ define([
 
     /**
      */
-    module.controller('EditorController', function editorConstructor() {
+    module.controller('Controller', function ControllerConstructor() {
 
         /* *************************** Button functions **************************************************/
         this.editor_clear = function editor_empty(){ editor.clear(); };
