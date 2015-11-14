@@ -20,21 +20,25 @@
 <body ng-controller="EditorController as editCtrl" style="background-color: #333333">
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-danger"  ng-click="easelCtrl.resetStage                ()">tmp</button>
-        <button type="button" class="btn btn-info"    ng-click="easelCtrl.enterMode_placeVertices   ()">tmp</button>
-        <button type="button" class="btn btn-info"    ng-click="easelCtrl.enterMode_drawEdges       ()">tmp</button>
-        <button type="button" class="btn btn-info"    ng-click="easelCtrl.enterMode_markInitiators  ()">tmp</button>
-        <button type="button" class="btn btn-primary" ng-click="easelCtrl.enterMode_removeVertices  ()">tmp</button>
-        <button type="button" class="btn btn-primary" ng-click="easelCtrl.enterMode_removeEdges     ()">tmp</button>
-        <button type="button" class="btn btn-primary" ng-click="easelCtrl.enterMode_unmarkInitiators()">tmp</button>
+        <button type="button" class="btn btn-danger"  ng-click="editCtrl.system_reset()">Reset it! Reset it all! Mwa ha! MUA HA HA!</button>
     </div>
 
-    <div id="codeMirrorElement"><!-- this will be replaced by CodeMirror when the controller constructs --> </div>
+    <br />
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-danger" ng-click="easelCtrl.alg_reset()">tmp</button>
-        <button type="button" class="btn btn-info"   ng-click="easelCtrl.alg_run  ()">tmp</button>
+        <button type="button" class="btn btn-danger"  ng-click="editCtrl.editor_reset()">Reset Editor</button>
+        <button type="button" class="btn btn-info"    ng-click="editCtrl.editor_clear()">Clear Editor</button>
     </div>
+
+    <div id="editorDiv"></div>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-danger"  ng-click="editCtrl.deltaLog_reset       ()">Reset Log</button>
+        <button type="button" class="btn btn-info"    ng-click="editCtrl.deltaLog_calculate   ()">Calculate new deltas</button>
+        <button type="button" class="btn btn-primary" ng-click="editCtrl.deltaLog_sendToServer()">Send to server</button>
+    </div>
+
+    <div id="deltaLogDiv"></div>
 
 </body>
 </html>
