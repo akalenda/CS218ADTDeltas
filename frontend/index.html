@@ -39,7 +39,16 @@
         <button type="button" class="btn btn-primary" ng-click="ctrl.deltaLog_sendToServer()">Send to server</button>
     </div>
 
-    <div id="deltaLogDiv"></div>
+    <br />
+
+    <div>
+        <div style="float:left; width:33%;" class="deltaLogDiv">Deltas for plain text ({{ctrl.sizePlainText}} B)</div>
+        <div style="float:left; width:33%;" class="deltaLogDiv">Deltas for search-and-replace ({{ctrl.sizeSearchAndReplace}} B)</div>
+        <div style="float:left; width:33%;" class="deltaLogDiv">Deltas for both algebraically combined ({{ctrl.sizeADT}} B)</div>
+    </div>
+
+    <br />
+
 
 </body>
 </html>

@@ -15,19 +15,32 @@ define([
      */
     module.controller('Controller', function ControllerConstructor() {
 
+        var that = this;
+
+        /* *************************** Angular fields *******************************************/
+        this.sizePlainText = 0;
+        this.sizeSearchAndReplace = 0;
+        this.sizeADT = 0;
+
         /* *************************** Button functions **************************************************/
         this.editor_clear = function editor_empty(){ editor.clear(); };
         this.editor_reset = function editor_reset(){ editor.reset(); };
 
         this.deltaLog_reset = function deltaLog_reset() {
             editor.archive();
-            deltaLog.reset();
+            deltaLog_plainText.reset();
+            deltaLog_searchReplace.reset();
+            deltaLog_ADT.reset();
             // TODO: Prompt server to start anew
         };
 
         this.deltaLog_calculate = function deltaLog_calculate() {
-            var newDeltas = editor.getDeltasBetweenArchivedAndCurrentContent() + "\n";
-            deltaLog.append(newDeltas);
+            var newDeltas = editor.getDeltasBetweenArchivedAndCurrentContent();
+            deltaLog_plainText.append(newDeltas);
+            deltaLog_ADT.append(newDeltas);
+            that.sizePlainText = deltaLog_plainText.getSize();
+            that.sizeSearchAndReplace = deltaLog_searchReplace.getSize();
+            that.sizeADT = deltaLog_ADT.getSize();
             editor.archive();
         };
 
@@ -39,6 +52,9 @@ define([
         var editor = new Editor($('#editorDiv')[0]);
         editor.reset();
 
-        var deltaLog = new DeltaLog($('#deltaLogDiv')[0]);
+        var tmpDivs = $('.deltaLogDiv');
+        var deltaLog_plainText     = new DeltaLog(tmpDivs[0]);
+        var deltaLog_searchReplace = new DeltaLog(tmpDivs[1]);
+        var deltaLog_ADT           = new DeltaLog(tmpDivs[2]);
     });
 });

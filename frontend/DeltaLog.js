@@ -8,7 +8,10 @@ define([
      */
     function DeltaLog(domTarget) {
 
-        this._display = new CodeMirror(document.body, {
+        this._deltas = [];
+        this._size = 0;
+
+        this._display = new CodeMirror(domTarget, {
             value       : '',
             mode        : 'diff',
             theme       : "pastel-on-dark",
@@ -28,11 +31,14 @@ define([
     };
 
     /**
-     * @param {String} str
+     * @param {String} delta
+     * @param {String} [type]
      * @returns {DeltaLog}
      */
-    DeltaLog.prototype.append = function append(str) {
-        this._display.replaceRange(str, CodeMirror.Pos(this._display.lastLine()));
+    DeltaLog.prototype.append = function append(delta, type) {
+        this._deltas.push(delta);
+        this._size += delta.length;
+        this._display.replaceRange(delta + "\n", CodeMirror.Pos(this._display.lastLine()));
         return this;
     };
 
@@ -40,7 +46,18 @@ define([
      * @returns {String}
      */
     DeltaLog.prototype.toString = function toString() {
-        return this._display.value;
+        var stringification = "";
+        this._deltas.forEach(function(delta){
+            stringification += delta;
+        });
+        return stringification;
+    };
+
+    /**
+     * @returns {number|Number}
+     */
+    DeltaLog.prototype.getSize = function getSize() {
+        return this._size;
     };
 
     return DeltaLog;
