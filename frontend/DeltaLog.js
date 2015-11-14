@@ -25,6 +25,8 @@ define([
      * @returns {DeltaLog}
      */
     DeltaLog.prototype.reset = function reset() {
+        this._deltas = [];
+        this._size = 0;
         this._display.setValue("");
         this._display.clearHistory();
         return this;

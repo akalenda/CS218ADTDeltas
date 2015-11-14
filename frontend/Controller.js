@@ -12,39 +12,51 @@ define([
     });
 
     /**
+     *
      */
     module.controller('Controller', function ControllerConstructor() {
 
         var that = this;
 
         /* *************************** Angular fields *******************************************/
+        //noinspection JSUnusedGlobalSymbols
         this.sizePlainText = 0;
+        //noinspection JSUnusedGlobalSymbols
         this.sizeSearchAndReplace = 0;
+        //noinspection JSUnusedGlobalSymbols
         this.sizeADT = 0;
 
-        /* *************************** Button functions **************************************************/
+        /* *************************** Angular button functions **************************************************/
 
+        //noinspection JSUnusedGlobalSymbols
         this.system_reset = function system_reset() {
             this.editor_reset();
             this.deltaLog_reset();
         };
 
+        //noinspection JSUnusedGlobalSymbols
         this.editor_clear = function editor_empty() {
             editor.clear();
         };
 
+        //noinspection JSUnusedGlobalSymbols
         this.editor_reset = function editor_reset() {
             editor.reset();
         };
 
+        //noinspection JSUnusedGlobalSymbols
         this.deltaLog_reset = function deltaLog_reset() {
             deltaLog_plainText.reset();
             deltaLog_searchReplace.reset();
             deltaLog_ADT.reset();
+            that.sizePlainText = 0;
+            that.sizeSearchAndReplace = 0;
+            that.sizeADT = 0;
             editor.archive();
             // TODO: Prompt server to start anew
         };
 
+        //noinspection JSUnusedGlobalSymbols
         this.deltaLog_calculate = function deltaLog_calculate() {
             var newDeltas = editor.getDeltasBetweenArchivedAndCurrentContent();
             deltaLog_plainText.append(newDeltas);
@@ -55,11 +67,12 @@ define([
             editor.archive();
         };
 
+        //noinspection JSUnusedGlobalSymbols
         this.deltaLog_sendToServer = function deltaLog_sendToServer() {
             // TODO
         };
 
-        /* ***************************  **************************************/
+        /* *************************** Initialize CodeMirrors **************************************/
         var editor = new Editor($('#editorDiv')[0]);
         editor.reset();
 
