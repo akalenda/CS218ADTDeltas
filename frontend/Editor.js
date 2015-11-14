@@ -2,6 +2,8 @@ define([
 ], function () {
     'use strict';
 
+    //noinspection JSPotentiallyInvalidConstructorUsage
+    var DMP = new diff_match_patch();
     var SAMPLE_CODE_FILE = 'Controller.js';
 
     /**
@@ -33,8 +35,10 @@ define([
     /**
      * @returns {String}
      */
-    Editor.prototype.getDiffBetweenContentAndArchive = function getDiffBetweenContentAndArchive() {
-        // TODO
+    Editor.prototype.getDeltasBetweenArchivedAndCurrentContent = function getDeltasBetweenArchivedAndCurrentContent() {
+        var d = DMP.diff_main(this._oldContent, this.toString());
+        DMP.diff_cleanupEfficiency(d);
+        return DMP.diff_toDelta(d);
     };
 
     /**

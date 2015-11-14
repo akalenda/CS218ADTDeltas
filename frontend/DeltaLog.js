@@ -22,8 +22,8 @@ define([
      * @returns {DeltaLog}
      */
     DeltaLog.prototype.reset = function reset() {
-        this.display.setValue("");
-        this.display.clearHistory();
+        this._display.setValue("");
+        this._display.clearHistory();
         return this;
     };
 
@@ -32,7 +32,7 @@ define([
      * @returns {DeltaLog}
      */
     DeltaLog.prototype.append = function append(str) {
-        this.display.replaceRange(str, CodeMirror.Pos(this.display.lastLine()));
+        this._display.replaceRange(str, CodeMirror.Pos(this._display.lastLine()));
         return this;
     };
 
@@ -40,7 +40,7 @@ define([
      * @returns {String}
      */
     DeltaLog.prototype.toString = function toString() {
-        return this.display.value;
+        return this._display.value;
     };
 
     return DeltaLog;

@@ -26,7 +26,9 @@ define([
         };
 
         this.deltaLog_calculate = function deltaLog_calculate() {
-            // TODO
+            var newDeltas = editor.getDeltasBetweenArchivedAndCurrentContent() + "\n";
+            deltaLog.append(newDeltas);
+            editor.archive();
         };
 
         this.deltaLog_sendToServer = function deltaLog_sendToServer() {
