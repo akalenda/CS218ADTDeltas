@@ -23,14 +23,25 @@ define([
         this.sizeADT = 0;
 
         /* *************************** Button functions **************************************************/
-        this.editor_clear = function editor_empty(){ editor.clear(); };
-        this.editor_reset = function editor_reset(){ editor.reset(); };
+
+        this.system_reset = function system_reset() {
+            this.editor_reset();
+            this.deltaLog_reset();
+        };
+
+        this.editor_clear = function editor_empty() {
+            editor.clear();
+        };
+
+        this.editor_reset = function editor_reset() {
+            editor.reset();
+        };
 
         this.deltaLog_reset = function deltaLog_reset() {
-            editor.archive();
             deltaLog_plainText.reset();
             deltaLog_searchReplace.reset();
             deltaLog_ADT.reset();
+            editor.archive();
             // TODO: Prompt server to start anew
         };
 
