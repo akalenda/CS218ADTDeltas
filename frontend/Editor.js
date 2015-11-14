@@ -41,6 +41,10 @@ define([
         return DMP.diff_toDelta(d);
     };
 
+    Editor.prototype.applyDeltas = function applyDeltas(deltas) {
+        // TODO
+    };
+
     /**
      * @returns {Editor}
      */

@@ -72,6 +72,13 @@ define([
             // TODO
         };
 
+        this.deltaLog_receiveFromServer = function deltaLog_receiveFromServer() {
+            $.get("someURL", function(data){
+                editor.applyDeltas(data);
+            });
+            // TODO
+        };
+
         /* *************************** Initialize CodeMirrors **************************************/
         var editor = new Editor($('#editorDiv')[0]);
         editor.reset();
