@@ -2,7 +2,7 @@ define([
 ], function () {
     'use strict';
 
-    var SAMPLE_CODE_FILE = 'EditorController.js';
+    var SAMPLE_CODE_FILE = 'Controller.js';
 
     /**
      * @param {HTMLHtmlElement} domTarget

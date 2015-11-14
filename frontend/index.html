@@ -17,25 +17,25 @@
     <script data-main="main" src="libraries/require.min.js"></script>
 
 </head>
-<body ng-controller="EditorController as editCtrl" style="background-color: #333333">
+<body ng-controller="Controller as ctrl" style="background-color: #333333">
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-danger"  ng-click="editCtrl.system_reset()">Reset it! Reset it all! Mwa ha! MUA HA HA!</button>
+        <button type="button" class="btn btn-danger"  ng-click="ctrl.system_reset()">Reset it! Reset it all! Mwa ha! MUA HA HA!</button>
     </div>
 
     <br />
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-danger"  ng-click="editCtrl.editor_reset()">Reset Editor</button>
-        <button type="button" class="btn btn-info"    ng-click="editCtrl.editor_clear()">Clear Editor</button>
+        <button type="button" class="btn btn-danger"  ng-click="ctrl.editor_reset()">Reset Editor</button>
+        <button type="button" class="btn btn-info"    ng-click="ctrl.editor_clear()">Clear Editor</button>
     </div>
 
     <div id="editorDiv"></div>
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-danger"  ng-click="editCtrl.deltaLog_reset       ()">Reset Log</button>
-        <button type="button" class="btn btn-info"    ng-click="editCtrl.deltaLog_calculate   ()">Calculate new deltas</button>
-        <button type="button" class="btn btn-primary" ng-click="editCtrl.deltaLog_sendToServer()">Send to server</button>
+        <button type="button" class="btn btn-danger"  ng-click="ctrl.deltaLog_reset       ()">Reset Log</button>
+        <button type="button" class="btn btn-info"    ng-click="ctrl.deltaLog_calculate   ()">Calculate new deltas</button>
+        <button type="button" class="btn btn-primary" ng-click="ctrl.deltaLog_sendToServer()">Send to server</button>
     </div>
 
     <div id="deltaLogDiv"></div>

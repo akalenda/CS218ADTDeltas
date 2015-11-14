@@ -21,5 +21,5 @@ require.config({
         'bootstrap/transition': { deps: ['jquery'], exports: '$.fn.transition' }
     },
 
-    deps: ['EditorController']
+    deps: ['Controller']
 });
