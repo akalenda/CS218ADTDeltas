@@ -73,8 +73,9 @@ define([
         };
 
         this.deltaLog_receiveFromServer = function deltaLog_receiveFromServer() {
-            $.get("someURL", function(data){
-                editor.applyDeltas(data);
+            $.get("/hurgh", function(data){
+                alert(data);
+                //editor.applyDeltas(data);
             });
             // TODO
         };

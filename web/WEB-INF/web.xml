@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <servlet>
+        <servlet-name>plainTextDelta</servlet-name>
+        <servlet-class>edu.sjsu.cs218.deltasADT.PlainTextDeltaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>plainTextDelta</servlet-name>
+        <url-pattern>/plainTextDelta</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>searchReplaceDelta</servlet-name>
+        <servlet-class>edu.sjsu.cs218.deltasADT.SearchReplaceDelta</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>searchReplaceDelta</servlet-name>
+        <url-pattern>/searchReplaceDelta</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>adtDelta</servlet-name>
+        <servlet-class>edu.sjsu.cs218.deltasADT.AdtDelta</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adtDelta</servlet-name>
+        <url-pattern>/adtDelta</url-pattern>
+    </servlet-mapping>
+
+</web-app>
