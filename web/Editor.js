@@ -79,5 +79,31 @@ define([
         }.bind(this));
     };
 
+    /**
+     * @param {string} searchString
+     * @param {string} replaceString
+     * @returns {boolean} - True if the search-and-replacement effected a change in the actual text
+     */
+    Editor.prototype.searchAndReplaceAll = function searchAndReplaceAll(searchString, replaceString) {
+        var oldText = this._display.getValue();
+        var newText = oldText.split(searchString).join(replaceString);
+        if (oldText == newText)
+            return false;
+        this._display.setValue(newText);
+        return true;
+    };
+
+    /**
+     * Adds up the values of all the characters in the document
+     */
+    Editor.prototype.getCharSum = function getCharSum() {
+        var text = this._display.getValue();
+        var sum = 0;
+        for (var i = 0; i < text.length; i++) {
+            sum += text.charCodeAt(i);
+        }
+        return sum;
+    };
+
     return Editor;
 });

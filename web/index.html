@@ -31,6 +31,27 @@
         <button type="button" class="btn btn-info"    ng-click="ctrl.editor_clear()">Clear Editor</button>
     </div>
 
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <!--<button class="btn btn-default" type="button" ng-click="ctrl.editor_findNext(ctrl.searchField)">Find next</button>-->
+                </span>
+                <input type="text" class="form-control" placeholder="Search for..." ng-model="ctrl.searchField">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="ctrl.editor_searchAndReplaceAll(ctrl.searchField, ctrl.replaceField)">Replace all with:</button>
+                </span>
+                <input type="text" class="form-control" placeholder="Enter new text" ng-model="ctrl.replaceField">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+
     <div id="editorDiv"></div>
 
     <div class="btn-group" role="group" aria-label="...">

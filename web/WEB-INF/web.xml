@@ -4,6 +4,15 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <filter>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>plainTextDelta</servlet-name>
         <servlet-class>edu.sjsu.cs218.deltasADT.PlainTextDeltaServlet</servlet-class>
@@ -15,7 +24,7 @@
 
     <servlet>
         <servlet-name>searchReplaceDelta</servlet-name>
-        <servlet-class>edu.sjsu.cs218.deltasADT.SearchReplaceDelta</servlet-class>
+        <servlet-class>edu.sjsu.cs218.deltasADT.SearchReplaceDeltaServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>searchReplaceDelta</servlet-name>
@@ -24,7 +33,7 @@
 
     <servlet>
         <servlet-name>adtDelta</servlet-name>
-        <servlet-class>edu.sjsu.cs218.deltasADT.AdtDelta</servlet-class>
+        <servlet-class>edu.sjsu.cs218.deltasADT.AdtDeltaServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>adtDelta</servlet-name>
