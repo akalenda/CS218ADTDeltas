@@ -132,21 +132,19 @@
 	
 	Since then, I've often found myself contemplating how technology could facilitate that kind of paired programming. I started looking more closely at Google Docs, an in-browser cloud-based document writer in which multiple users can simultaneously make edits and see what others are typing, what they have selected, and so forth in real-time. Could we have the same kind of real-time editing for an IDE? Absolutely!
 	
-	My thinking extended further along this line. Many people can be working on the same code base, making a high volume of edits. On the other hand, an IDE will know much more about the nature of edits being made than a simple text editor. Where a plain text editor might only see various lines being altered, an IDE can know that a particular symbol -- like a variable name -- is being renamed. There is the potential to significantly reduce necessary data transmission by taking advantage of this kind of information.
+	My thinking extended further along this line. A significant issue is in the timely transfer of data, as many people can be making a high volume of edits on the same code bases. How could we counter this? Where a plain text editor might only see various lines being altered, an IDE can know that a particular symbol -- like a variable name -- is being renamed. There is the potential to significantly reduce necessary data transmission by taking advantage of the additional context-sensitive information an IDE has access to.
 	
 	To begin with, we have the classic practice of encoding changes in terms of deltas, widely used in the HTTP protocol\cite{BenefitsDeltaEncodingHTTP,DeltaEncodingHTTP}. Simply put, deltas describe the differences between data; knowing what data at one point in the sequence is, and knowing the difference between it and the next, we can reconstruct that next data point. Primarily, this is useful for compressing data transmission at a small computational cost, which is exactly what is desired for the online IDE idea. Section 2 explains delta encoding further.
 	
-	But how does the aforementioned IDE knowledge translate into savings in these deltas? As in the case given, where it knows about a symbol rename, it has the option of encoding a delta in terms of either a delta on the plain text file, or a delta on the program's abstract syntax tree. The second option is very likely to be much more compact. Thus, we can use different \textit{types} of deltas.
+	So, an IDE can be aware of different \textit{types} of changes. A delta can be expressed as a change to plain text, or it may be expressed in more focused and compact terms. For example, a variable name referred to hundreds of times in a program can be renamed; normal source control would then have hundreds of plain text deltas, when a single delta command describing a search-and-replace would suffice.
 	
 	From this, an idea formed from the vapor of my mind: If the delta types are variants, why not express them as an algebraic data type? Then the delta is always of one type which we can construct to accommodate any combination of possible deltas we could desire. Perhaps these deltas could even be reconstructed dynamically to compress data further --  all while maintaining strong program safety. Section 3 explains algebraic data types in greater detail.
 	
 	Without variants and/or algebraic data types, handling multiple types of deltas is still possible. A web app could simply have multiple streams to the server, each specified for a particular type of delta. The project's intent is to combine these streams into a single stream of algebraically typed deltas.
 	
-	My hypothesis is that, although a stream of algebraically typed deltas may require extra bytes in order to tag variants, the ability to safely combine sets of changes into cleaner and more efficient deltas would lead to less data transmission and fewer packets. I further hypothesize that it may require no extra bytes whatsoever to encode, as deltas are already essentially command expressions, and we need only add more commands. I also hypothesize as these commands bear resemblance to abstract syntax -- for which ADTs are particularly well-suited\citationNeeded -- an algebraic approach would lead to a cleaner, safer, more understandable implementation.
+	My hypothesis is that, although a stream of algebraically typed deltas may require extra bytes in order to tag variants, the ability to safely combine sets of changes into cleaner and more efficient deltas would lead to less data transmission and fewer packets. I further hypothesize that it may require no extra bytes whatsoever to encode, as deltas are already essentially command expressions, and we need only add more commands.
 	
-	With this hypothesis, an experiment is necessary. Currently the experiment is pending, and will be detailed along with its results in a future version of this paper. The original motivation, an online IDE, is beyond the scope of this experiment. Instead, the experiment will depend on a minimal application to provide proof of concept. 
-	
-	The plan is for this to be a web app, a simple text editor that handles two delta types: The first being standard changes to the text file based on line and column; the second being find-and-replace changes. These deltas will then be sent to two servers. The first will be sent deltas as plain data types through separate streams. The second will be sent deltas as an algebraic data type through a single stream. The two data streams will be metrically compared for volume of data and number of packets. The two implementations will also be compared by their "soft" attributes, such as clarity and apparent safety.
+	With this hypothesis, an experiment is necessary. Currently the experiment is pending, and will be detailed along with its results in a future version of this paper. The original motivation, an online IDE, is beyond the scope of this experiment. Instead, the experiment will depend on a minimal web application to provide proof of concept. Section 4 will discuss the experiment, and Section 5 will discuss its results.
 	
 	From this point, we can potentially explore optimizations available for each method, and perhaps continue the experiment by implementing these optimizations if they seem worthwhile.
 	
@@ -370,7 +368,9 @@ data Location2 = MaybeLatitude MaybeLongitude --(UA + A) * (UO + O)
 		\end{itemize}
 	
 	\section{Deltas as ADTs by Example}
-		Section incomplete
+	
+		The plan is for this to be a web app, a simple text editor that handles two delta types: The first being standard changes to the text file based on line and column; the second being find-and-replace changes. These deltas will then be sent to two servers. The first will be sent deltas as plain data types through separate streams. The second will be sent deltas as an algebraic data type through a single stream. The two data streams will be metrically compared for volume of data and number of packets. The two implementations will also be compared by their "soft" attributes, such as clarity and apparent safety.
+			
 		\begin{enumerate}
 			\item Problem statement: Source code editor
 			\item Types of source code deltas

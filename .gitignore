@@ -3,3 +3,8 @@
 .idea/uiDesigner.xml
 out/
 appengine-generated/
+
+# TexStudio temporary files
+*.aux
+*.gz
+*.log

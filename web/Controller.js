@@ -20,16 +20,18 @@ define([
 
         /* *************************** Angular fields *******************************************/
         //noinspection JSUnusedGlobalSymbols
+        this.sizeEditorText = 0;
+        //noinspection JSUnusedGlobalSymbols
         this.sizePlainText = 0;
         //noinspection JSUnusedGlobalSymbols
         this.sizeSearchAndReplace = 0;
-        //noinspection JSUnusedGlobalSymbols
         this.sizeADT = 0;
 
         /**
          * Updates values that are displayed (via Angular's $digest) on the webpage
          */
         function updateLogSizeDisplays() {
+            that.sizeEditorText = editor.getSize();
             that.sizePlainText = deltaLog_plainText.getSize();
             that.sizeSearchAndReplace = deltaLog_searchReplace.getSize();
             that.sizeADT = deltaLog_ADT.getSize();
@@ -86,16 +88,12 @@ define([
             var changeOccurred = editor.searchAndReplaceAll(searchString, replaceString);
             if (!changeOccurred)
                 return;
-            var searchString2 = encodeSpecialCharactersIn(searchString);
-            var replaceString2 = encodeSpecialCharactersIn(replaceString);
-            var delta = "=r\t" + searchString2 + "\t" + replaceString2 + "\t=" + editor.getCharSum();
-            deltaLog_searchReplace.append(delta);
-            deltaLog_ADT.append(delta);
-            updateLogSizeDisplays();
-            editor.archive();
+            searchAndReplaceHelper(searchString, replaceString);
         };
 
-        //noinspection JSUnusedGlobalSymbols
+        /**
+         *
+         */
         this.deltaLog_reset = function deltaLog_reset() {
             deltaLog_plainText.reset();
             deltaLog_searchReplace.reset();
@@ -105,18 +103,25 @@ define([
             // TODO: Prompt server to start anew
         };
 
-        //noinspection JSUnusedGlobalSymbols
+        /**
+         *
+         */
         this.deltaLog_calculate = function deltaLog_calculate() {
             var newDeltas = editor.getDeltasBetweenArchivedAndCurrentContent();
             if (noChangeIsDescribedIn(newDeltas))
                 return;
-            deltaLog_plainText.append(newDeltas);
+            deltaLog_plainText.append(makeTimestamp() + newDeltas);
+            if (that.sizeADT == 0)
+                deltaLog_ADT.append(makeTimestamp());
             deltaLog_ADT.append(newDeltas);
             updateLogSizeDisplays();
             editor.archive();
         };
 
         //noinspection JSUnusedGlobalSymbols
+        /**
+         *
+         */
         this.deltaLog_sendToServer = function deltaLog_sendToServer() {
             $.post("/plainTextDelta", { d: deltaLog_plainText.toString() }, function(response){
                 alert(response);
@@ -124,6 +129,9 @@ define([
         };
 
         //noinspection JSUnusedGlobalSymbols
+        /**
+         *
+         */
         this.deltaLog_receiveFromServer = function deltaLog_receiveFromServer() {
             $.get("/plainTextDelta", function(data){
                 alert(data);
@@ -132,14 +140,25 @@ define([
             // TODO
         };
 
+        this.deltaLog_generateRandDelta = function deltaLog_generateRandDelta() {
+            var choiceDelta = editor.makeRandChange();
+            if (choiceDelta == "plainText"){
+                this.deltaLog_calculate();
+            } else if (choiceDelta.type == "searchAndReplace") {
+                searchAndReplaceHelper(choiceDelta.searchString, choiceDelta.replaceString);
+            }
+
+        };
+
         /* *************************** Initialize CodeMirrors **************************************/
         var editor = new Editor($('#editorDiv')[0]);
-        editor.reset();
 
         var tmpDivs = $('.deltaLogDiv');
         var deltaLog_plainText     = new DeltaLog(tmpDivs[0]);
         var deltaLog_searchReplace = new DeltaLog(tmpDivs[1]);
         var deltaLog_ADT           = new DeltaLog(tmpDivs[2]);
+
+        this.system_reset();
 
         /* ************************* Helper functions **********************************/
         /**
@@ -151,6 +170,7 @@ define([
                 .split("\t").join("%13");
         }
 
+        //noinspection JSUnusedLocalSymbols
         /**
          * @param {string} str
          * @returns {string}
@@ -166,6 +186,25 @@ define([
          */
         function noChangeIsDescribedIn(delta) {
             return /^=\d+$/.test(delta);
+        }
+
+        /**
+         * @returns {string} - The current date-time, in milliseconds, encoded in base-36
+         */
+        function makeTimestamp() {
+            return Date.now().toString(36);
+        }
+
+        function searchAndReplaceHelper(searchString, replaceString) {
+            var searchString2 = encodeSpecialCharactersIn(searchString);
+            var replaceString2 = encodeSpecialCharactersIn(replaceString);
+            var delta = "=r\t" + searchString2 + "\t" + replaceString2 + "\t=" + editor.getCharSum();
+            deltaLog_searchReplace.append(makeTimestamp() + delta);
+            if (that.sizeADT == 0)
+                deltaLog_ADT.append(makeTimestamp());
+            deltaLog_ADT.append(delta);
+            updateLogSizeDisplays();
+            editor.archive();
         }
     });
 });

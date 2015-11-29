@@ -105,5 +105,42 @@ define([
         return sum;
     };
 
+    /**
+     * @returns {number} - returns the number of characters in the editor text
+     */
+    Editor.prototype.getSize = function getSize() {
+        return this._display.getValue().length;
+    };
+
+    Editor.prototype.makeRandChange = function makeRandChange() {
+
+        /* choice of add, delete, or search and replace */
+        var choice = Math.random();
+        var position = Math.floor(this.getSize() * Math.random());
+        var randString = Math.random().toString(36);
+
+        if (choice < 1/3) {
+            var editorText = this._display.getValue();
+            var output = [
+                editorText.slice(0, position),
+                randString,
+                editorText.slice(position)
+            ].join('');
+            this._display.setValue(output);
+            return "plainText";
+        } else if (choice < 2/3) {
+            var editorText = this._display.getValue();
+            var deleteSize = Math.floor(20 * Math.random());
+            var output = [editorText.slice(0, position), editorText.slice(position+deleteSize)].join('');
+            this._display.setValue(output);
+            return "plainText";
+        } else {
+            var editorText = this._display.getValue();
+            var searchString = editorText.substring(position, position+ Math.floor(7 * Math.random() + 1));
+            this.searchAndReplaceAll(searchString, randString);
+            return {type: "searchAndReplace", searchString: searchString, replaceString: randString};
+        }
+    };
+
     return Editor;
 });

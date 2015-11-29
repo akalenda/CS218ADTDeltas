@@ -1,6 +1,7 @@
 package edu.sjsu.cs218.deltasADT;
 
 import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
+import com.google.appengine.labs.repackaged.com.google.common.base.Pair;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.annotation.Entity;
@@ -20,15 +21,16 @@ public class Delta {
         ObjectifyService.register(Delta.class);
     }
 
-    @Id private Long id;
+    @Id private Long id; // AppEngine's DataStore automagically populates this
     @Parent private final Key<DeltaRepository> repo;
     @Index private final Date date;
     private final String command;
 
     public Delta(String repoName, String data) {
+        Pair<Date, String> timestampAndDeltas = extractTimestampFrom(data);
         this.repo = Key.create(DeltaRepository.class, repoName);
-        this.date = new Date();
-        this.command = data;
+        this.date = timestampAndDeltas.first;
+        this.command = timestampAndDeltas.second;
     }
 
     public boolean equals(Delta o) {
@@ -49,7 +51,7 @@ public class Delta {
 
     @Override
     public String toString() {
-        return command;
+        return Long.toString(date.getTime(), 36) + command;
     }
 
     /* ******************************* Tools ******************************************/
@@ -71,7 +73,7 @@ public class Delta {
         Key<DeltaRepository> repo = Key.create(DeltaRepository.class, repoName);
         List<Delta> deltas = ObjectifyService.ofy().load()
                 .type(Delta.class)
-                //.ancestor(repo)
+                .ancestor(repo)
                 //.order("date")
                 .list();
         return deltas;
@@ -79,5 +81,27 @@ public class Delta {
 
     public static String loadToString(String repoName) {
         return Joiner.on(" ").join(load(repoName));
+    }
+
+    /* ******************************* Helpers *******************************************/
+    public Pair<Date, String> extractTimestampFrom(String data) {
+        try {
+            StringBuilder timestamp = new StringBuilder();
+            for(int i=0; i<data.length(); i++) {
+                char currChar = data.charAt(i);
+                if (currChar == '=')
+                    return Pair.of(new Date(Long.valueOf(timestamp.toString(), 36)), data.substring(i+1));
+                timestamp.append(currChar);
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(extractTimestamp_exceptionText(data));
+        }
+        throw new IllegalArgumentException(extractTimestamp_exceptionText(data));
+    }
+
+    public String extractTimestamp_exceptionText(String data) {
+        return "Argument does not appear to be of the form '123=...', where "
+                + "'123' is a base-36 integer timestamp and '=...' is a delta of some kind. Given argument is as "
+                + "follows: '" + data + "'";
     }
 }
