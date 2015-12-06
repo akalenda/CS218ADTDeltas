@@ -22,3 +22,5 @@ require.config({
 
     deps: ['Controller']
 });
+
+// TODO: Proper AMD loading for Chart JS

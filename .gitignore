@@ -8,3 +8,4 @@ appengine-generated/
 *.aux
 *.gz
 *.log
+*.out

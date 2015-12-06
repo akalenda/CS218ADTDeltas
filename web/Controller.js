@@ -35,6 +35,7 @@ define([
             that.sizePlainText = deltaLog_plainText.getSize();
             that.sizeSearchAndReplace = deltaLog_searchReplace.getSize();
             that.sizeADT = deltaLog_ADT.getSize();
+            addChartDataPoints();
         }
 
         /**
@@ -160,7 +161,94 @@ define([
 
         this.system_reset();
 
+        var deltaChartDataWithEditor = {
+            labels: [0],
+            datasets: [
+                {
+                    label: "Size of complete file",
+                    fillColor:   "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor:  "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [0]
+                },
+                {
+                    label: "Size of plain-text deltas",
+                    fillColor:   "rgba(151,0,0,0.2)",
+                    strokeColor: "rgba(151,0,0,1)",
+                    pointColor:  "rgba(151,0,0,1)",
+                    pointStrokeColor:   "#ff0000",
+                    pointHighlightFill: "#ff0000",
+                    pointHighlightStroke: "rgba(151,0,0,1)",
+                    data: [0]
+                },
+                {
+                    label: "Size of search-and-replace deltas",
+                    fillColor:   "rgba(0,0,205,0.2)",
+                    strokeColor: "rgba(0,0,205,1)",
+                    pointColor:  "rgba(0,0,205,1)",
+                    pointStrokeColor:   "#0000ff",
+                    pointHighlightFill: "#0000ff",
+                    pointHighlightStroke: "rgba(0,0,205,1)",
+                    data: [0]
+                },
+                {
+                    label: "Size of plain-text and search-and-replace deltas together",
+                    fillColor:   "rgba(151,0,205,0.2)",
+                    strokeColor: "rgba(151,0,205,1)",
+                    pointColor:  "rgba(151,0,205,1)",
+                    pointStrokeColor:   "#ff00ff",
+                    pointHighlightFill: "#ff00ff",
+                    pointHighlightStroke: "rgba(151,0,205,1)",
+                    data: [0]
+                },
+                {
+                    label: "Size of ADT deltas",
+                    fillColor:   "rgba(0,187,0,0.2)",
+                    strokeColor: "rgba(0,187,0,1)",
+                    pointColor:  "rgba(0,187,0,1)",
+                    pointStrokeColor: "  #00ff00",
+                    pointHighlightFill: "#00ff00",
+                    pointHighlightStroke: "rgba(0,187,0,1)",
+                    data: [0]
+                }
+            ]
+        };
+
+        var deltaChartData = {
+            labels: [0],
+            datasets: deltaChartDataWithEditor.datasets.slice(1)
+        };
+
+        Chart.defaults.global.animation = false;
+        var deltaChart = new Chart(
+            $("#leftChart").get(0).getContext("2d")
+        ).Line(deltaChartData);
+        var deltaChartWithEditor = new Chart(
+            $("#rightChart").get(0).getContext("2d")
+        ).Line(deltaChartDataWithEditor);
+
         /* ************************* Helper functions **********************************/
+        function addChartDataPoints() {
+            var nextIndex = deltaChartDataWithEditor.labels[deltaChartDataWithEditor.labels.length-1] + 1;
+            deltaChart.addData([
+                that.sizePlainText,
+                that.sizeSearchAndReplace,
+                that.sizePlainText + that.sizeSearchAndReplace,
+                that.sizeADT
+            ], nextIndex);
+            deltaChartWithEditor.addData([
+                that.sizeEditorText,
+                that.sizePlainText,
+                that.sizeSearchAndReplace,
+                that.sizePlainText + that.sizeSearchAndReplace,
+                that.sizeADT
+            ], nextIndex);
+            deltaChart.update();
+        }
+
         /**
          * @param {string} str
          * @returns {string}

@@ -13,6 +13,8 @@
     <script src="libraries/codemirror.javascript.min.js"></script>
     <script src="libraries/codemirror.diff.min.js"></script>
 
+    <script src="libraries/Chart.min.js"></script> <!-- TODO: Switch to AMD loaded module -->
+
     <script src="libraries/angular.min.js"></script>
     <script src="libraries/diff_match_patch.js"></script>
     <script data-main="main" src="libraries/require.min.js"></script>
@@ -74,6 +76,10 @@
 
     <br />
 
+    <div style="float:left">
+        <canvas id="leftChart" width="400" height="400"></canvas>
+        <canvas id="rightChart" width="400" height="400"></canvas>
+    </div>
 
 </body>
 </html>
